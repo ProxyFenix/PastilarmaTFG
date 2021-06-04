@@ -1,0 +1,294 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "d7dc10d9e7b0dff1c7659f434658a6fa",
+    "entities": [
+      {
+        "tableName": "horario_alarma",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_alarma` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id_medicamento` INTEGER NOT NULL, `hora` TEXT NOT NULL, FOREIGN KEY(`id_medicamento`) REFERENCES `medicamentos`(`id_medicamentos`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id_alarm",
+            "columnName": "id_alarma",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_medicine_fk",
+            "columnName": "id_medicamento",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hour",
+            "columnName": "hora",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_alarma"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "medicamentos",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_medicamento"
+            ],
+            "referencedColumns": [
+              "id_medicamentos"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "alarmas_usuarios",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_alarma_usuario` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id_alarma` INTEGER, `id_usuario` INTEGER, FOREIGN KEY(`id_alarma`) REFERENCES `horario_alarma`(`id_alarma`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id_user_alarm",
+            "columnName": "id_alarma_usuario",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_alarm",
+            "columnName": "id_alarma",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_user",
+            "columnName": "id_usuario",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_alarma_usuario"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "horario_alarma",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_alarma"
+            ],
+            "referencedColumns": [
+              "id_alarma"
+            ]
+          },
+          {
+            "table": "usuarios",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_usuario"
+            ],
+            "referencedColumns": [
+              "id_usuario"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "medicamentos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_medicamentos` INTEGER, `nombre` TEXT, `cantidad` INTEGER, `id_paciente` INTEGER, PRIMARY KEY(`id_medicamentos`))",
+        "fields": [
+          {
+            "fieldPath": "id_medicine",
+            "columnName": "id_medicamentos",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "medicineName",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_paciente",
+            "columnName": "id_paciente",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_medicamentos"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "usuarios",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_usuario` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT, `apellido` TEXT, `edad` TEXT, `numHabitacion` INTEGER, `genero` TEXT NOT NULL, `observaciones` TEXT, `imagen` BLOB)",
+        "fields": [
+          {
+            "fieldPath": "id_user",
+            "columnName": "id_usuario",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_name",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user_surname",
+            "columnName": "apellido",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "edad",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "room_number",
+            "columnName": "numHabitacion",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "genero",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observation",
+            "columnName": "observaciones",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user_image",
+            "columnName": "imagen",
+            "affinity": "BLOB",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_usuario"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "condiciones",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_condiciones` INTEGER NOT NULL, `nombreCondicion` TEXT, PRIMARY KEY(`id_condiciones`))",
+        "fields": [
+          {
+            "fieldPath": "id_pathology",
+            "columnName": "id_condiciones",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pathologyName",
+            "columnName": "nombreCondicion",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_condiciones"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "usuarios_condiciones",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id_usuarios_condiciones` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id_usuario` INTEGER, `id_condiciones` INTEGER, FOREIGN KEY(`id_condiciones`) REFERENCES `condiciones`(`id_condiciones`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`id_usuario`) REFERENCES `usuarios`(`id_usuario`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id_user_pathology",
+            "columnName": "id_usuarios_condiciones",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id_user",
+            "columnName": "id_usuario",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id_pathology",
+            "columnName": "id_condiciones",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id_usuarios_condiciones"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "condiciones",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_condiciones"
+            ],
+            "referencedColumns": [
+              "id_condiciones"
+            ]
+          },
+          {
+            "table": "usuarios",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_usuario"
+            ],
+            "referencedColumns": [
+              "id_usuario"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd7dc10d9e7b0dff1c7659f434658a6fa')"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/spinnerItem"
+    android:layout_marginEnd="353dp"
+    android:layout_marginRight="353dp"
+    android:text="TextView"
+    android:textSize="@dimen/_14ssp"
+    android:fontFamily="@font/segoeuiz"
+    android:textColor="@color/verde_junta"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
