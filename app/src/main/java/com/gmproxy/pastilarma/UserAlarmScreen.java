@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.gmproxy.DAO.AlarmRepository;
 import com.gmproxy.DAO.AlarmUserRepository;
 import com.gmproxy.Entities.Alarm;
 import com.gmproxy.Entities.Medicine;
@@ -40,9 +41,9 @@ public class UserAlarmScreen extends AppCompatActivity {
     User user;
     Medicine medicine;
     Alarm alarm;
-    Alarm alarm2check;
 
     AlarmUserRepository alUsRe;
+    AlarmRepository alRe;
     AlarmViewModel alarmViewModel;
     UserViewModel userViewModel;
     MedicineViewModel medicineViewModel;
@@ -77,6 +78,7 @@ public class UserAlarmScreen extends AppCompatActivity {
         alarmViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(AlarmViewModel.class);
         medicineViewModel = new ViewModelProvider(this, new ViewModelProvider.AndroidViewModelFactory(getApplication())).get(MedicineViewModel.class);
         alUsRe = new AlarmUserRepository(this.getApplication());
+        alRe = new AlarmRepository(this.getApplication());
 
 
         user = userViewModel.getObjectById(idU);
@@ -202,33 +204,20 @@ public class UserAlarmScreen extends AppCompatActivity {
     public void confirmAlarm(View view) throws InterruptedException {
 
 
-        alarmViewModel.insertByIds(medicine.getId_medicine(),
+        alRe.insertAlarm(medicine.getId_medicine(),
                 notificationsTime.getText().toString());
 
-        //Here we compare and see if there was another alarm with the same hour/medicine
-        alarm = alarmViewModel.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine());
-        alarm2check = alarmViewModel.getAlarmByTime(notificationsTime.getText().toString());
-        Thread.sleep(1000);
-        /*
-        Given how the database is at the moment, there's no better way to get a single
-        id because alarm hours can be the same, leading to errors when creating the relation object.
-        If we compare the one we've just created given the hour, and the "good" one, which adds the
-        medicine id filter, we should be able to get the id of the last alarm that was just inserted on the
-        database.
-         */
-        if (alarm.getId_alarm() > alarm2check.getId_alarm()){
-            alUsRe.insertObjectById(alarm.getId_alarm(),
-                    idU);
-        } else {
-            alUsRe.insertObjectById(alarm2check.getId_alarm(),
-                    idU);
-        }
 
-        Log.println(Log.INFO,"Alarma check null",alarm.toString());
+        Log.println(Log.INFO,"Med check null",String.valueOf(medicine.getId_medicine()));
+        Log.println(Log.INFO,"Hour check null",notificationsTime.getText().toString());
+        int idAl = alRe.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine());
+        Log.println(Log.INFO,"Alarm Id Res check null",String.valueOf(alRe.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine())));
+        Log.println(Log.INFO,"Alarm Id check null",String.valueOf(idAl));
+        alUsRe.insertObjectById(idAl,idU);
 
         message = "El paciente " + user.getUser_name() + " " + user.getUser_surname()
-                + " tiene apuntada la medicación " + medicine.getMedicineName() + " a las " + alarm.getHour() + " horas.";
-        UtilAlarma.setAlarm(alarm.getId_alarm(), today.getTimeInMillis(), UserAlarmScreen.this, message);
+                + " tiene apuntada la medicación " + medicine.getMedicineName() + " a las " + notificationsTime.getText().toString() + " horas.";
+        UtilAlarma.setAlarm(idAl, today.getTimeInMillis(), UserAlarmScreen.this, message);
         Intent mainAct = new Intent(UserAlarmScreen.this, UserInfoScreen.class);
         int id = 1;
         mainAct.putExtra("alar-record",id);

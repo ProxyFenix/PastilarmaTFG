@@ -26,22 +26,27 @@ public class AlarmRepository {
         return concerningDao.getAllObjects();
     }
 
-    void insertAllObjects(List<Alarm> objectsList) {
+    public void insertAllObjects(List<Alarm> objectsList) {
         DatabaseHelper.databaseWriteExecutor.execute(() ->{
             concerningDao.insertAllObjects(objectsList);
         });
     }
 
+    public void insertAlarm(int i, String j){
+        DatabaseHelper.databaseWriteExecutor.execute(() ->{
+            concerningDao.insertAlarm(i,j);
+        });
+    }
 
-    public Alarm getAlarmbyTimeAndMedId(String a, int i) { return concerningDao.getAlarmbyTimeAndMedId(a,i); }
+    public Alarm getAlarmById(int i) { return concerningDao.getAlarmById(i); }
+
+    public int getAlarmbyTimeAndMedId(String a, int i) { return concerningDao.getAlarmbyTimeAndMedId(a,i); }
 
     public LiveData<List<HourMedicine>> getRelationObj(int id) { return concerningDao.getRelationObjects(id); }
 
     public Alarm getAlarmByTime(String time) { return concerningDao.getAlarmbyTime(time); }
 
     public void insertObject(Alarm obj){ concerningDao.insertAlarm(obj.getId_medicine_fk(), obj.getHour()); }
-
-    public void insertObjectByIds(int i, String j) { concerningDao.insertAlarm(i,j); }
 
     public void deleteObject(Alarm obj) {
         concerningDao.delete(obj);

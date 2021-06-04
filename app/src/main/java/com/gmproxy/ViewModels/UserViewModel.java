@@ -39,7 +39,9 @@ public class UserViewModel extends AndroidViewModel {
 
         public void insert(User obj) { repository.insertObject(obj); }
 
-        public User getObjectById(int i) { return repository.findObjectById(i); }
+        public void insertUser(String a, String b, String c, String d, String e, String f, byte[] g) { repository.insertUser(a,b,c,d,e,f,g); }
+
+        public User getObjectById(int i) { return repository.obtainById(i); }
 
         public int getIdByNameAndSurname (String a, String b) { return repository.getUserIdByNameAndSurname(a,b); }
 

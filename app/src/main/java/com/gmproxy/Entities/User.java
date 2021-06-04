@@ -24,7 +24,7 @@ public class User implements Serializable {
     String user_name;
 
     @ColumnInfo(name = "apellido")
-    String user_surname = "";
+    String user_surname;
 
     @ColumnInfo(name = "edad")
     String age;
@@ -54,6 +54,7 @@ public class User implements Serializable {
         this.observation = observation;
         this.user_image = user_image;
     }
+
 
     public User(String user_name, String user_surname, String age, int room_number, String gender, String observation, byte[] user_image) {
         this.user_name = user_name;

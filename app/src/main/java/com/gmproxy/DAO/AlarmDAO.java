@@ -23,22 +23,21 @@ public interface AlarmDAO {
     LiveData<List<Alarm>> getAllObjects();
 
     //Create new alarm
-    @Query("INSERT INTO horario_alarma VALUES (null,:id_medicamentos,:hora)")
+    @Query("INSERT INTO horario_alarma (id_medicamento,hora) VALUES (:id_medicamentos,:hora)")
     void insertAlarm(int id_medicamentos, String hora);
 
     //This is for adding it to the many-to-many table, first I hafta get the id
-    @Query("SELECT id_alarma FROM horario_alarma WHERE id_alarma LIKE :id_alarm")
-    int getAlarmId(int id_alarm);
+    @Query("SELECT * FROM horario_alarma WHERE id_alarma LIKE :id_alarm")
+    Alarm getAlarmById(int id_alarm);
 
     @Query("SELECT * FROM horario_alarma WHERE hora LIKE :time")
     Alarm getAlarmbyTime(String time);
 
-    @Query("SELECT * FROM horario_alarma WHERE hora LIKE :time and id_medicamento=:med")
-    Alarm getAlarmbyTimeAndMedId(String time,int med);
+    @Query("SELECT id_alarma FROM horario_alarma WHERE hora LIKE :time and id_medicamento=:med")
+    int getAlarmbyTimeAndMedId(String time,int med);
 
     @Query("SELECT * FROM horario_alarma WHERE id_alarma = :id")
     Alarm findObjectbyId(int id);
-
 
     @Query("SELECT horario_alarma.hora,medicamentos.nombre FROM horario_alarma INNER JOIN medicamentos on horario_alarma.id_medicamento=medicamentos.id_medicamentos " +
             "INNER JOIN alarmas_usuarios on horario_alarma.id_alarma=alarmas_usuarios.id_alarma " +

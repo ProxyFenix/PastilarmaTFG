@@ -32,5 +32,5 @@ public class FalseViewModel extends ViewModel {
 
     public Medicine getMedicineById(int id) { return meRe.findObjectById(id); }
 
-    public User getUserById(int i) { return usRe.findObjectById(i); }
+    public User getUserById(int i) { return usRe.obtainById(i); }
 }

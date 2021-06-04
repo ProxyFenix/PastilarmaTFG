@@ -31,7 +31,9 @@ public class AlarmInfoViewModel extends AndroidViewModel {
                 alarm = repository.getRelationObj(id);
 
         }
-        public Alarm getAlarmbyTimeAndMedId(String time, int idM) { return repository.getAlarmbyTimeAndMedId(time,idM); }
+        public int getAlarmbyTimeAndMedId(String time, int idM) { return repository.getAlarmbyTimeAndMedId(time,idM); }
+
+        public Alarm getAlarmById(int i) { return repository.getAlarmById(i); }
 
         public AlarmUser isThereAnyBodyHome(int id) { return alUsRe.isThereAnyBodyHome(id);  }
 
@@ -39,7 +41,7 @@ public class AlarmInfoViewModel extends AndroidViewModel {
 
         public void insert(Alarm obj) { repository.insertObject(obj); }
 
-        public void insertByIds(int i, String j) { repository.insertObjectByIds(i,j); }
+        public void insertByIds(int i, String j) { repository.insertAlarm(i,j); }
 
         public void delete(Alarm obj) { repository.deleteObject(obj); }
 }

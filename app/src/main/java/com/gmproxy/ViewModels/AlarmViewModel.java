@@ -28,13 +28,15 @@ public class AlarmViewModel extends AndroidViewModel {
 
         LiveData<List<Alarm>> getAll() { return alarm; }
 
-        public Alarm getAlarmbyTimeAndMedId(String time, int idM) { return repository.getAlarmbyTimeAndMedId(time,idM); }
+        public Alarm getAlarmById(int i) { return repository.getAlarmById(i); }
+
+        public int getAlarmbyTimeAndMedId(String time, int idM) { return repository.getAlarmbyTimeAndMedId(time,idM); }
 
         public Alarm getAlarmByTime(String time) { return repository.getAlarmByTime(time); }
 
         public void insert(Alarm obj) { repository.insertObject(obj); }
 
-        public void insertByIds(int i, String j) { repository.insertObjectByIds(i,j); }
+        public void insertByIds(int i, String j) { repository.insertAlarm(i,j); }
 
         public void delete(Alarm obj) { repository.deleteObject(obj); }
 }

@@ -36,7 +36,11 @@ public class PathologyUserRepository {
 
     public void deleteAllFromUser(int i) { concerningDao.deleteAllFromUser(i);}
 
-    public void insertObject(int i,int j) { concerningDao.insertIntoPathUser(i,j); }
+    public void insertObject(int i,int j) {
+        DatabaseHelper.databaseWriteExecutor.execute(() ->{
+            concerningDao.insertIntoPathUser(i,j);
+        });
+    }
 
     public PathologyUser getObj(int i,int j) { return concerningDao.getViaUserAlarmId(i,j); }
 

@@ -34,13 +34,18 @@ public class UserRepository {
         });
     }
 
-    public User findObjectById(int id) { return concerningDao.findObjectbyId(id); };
+    public User obtainById(int id){ return concerningDao.findObjectbyId(id); }
 
     public void insertObject(User obj) {
         DatabaseHelper.databaseWriteExecutor.execute(() ->{
             concerningDao.insertObject(obj);
         });
     }
+
+    public void insertUser(String a, String b, String c, String d, String e, String f, byte[] g) {
+        DatabaseHelper.databaseWriteExecutor.execute(() ->{
+        concerningDao.insertUser(a,b,c,d,e,f,g);
+    }); }
 
     public LiveData<List<User>> filter(String input){
         try{
@@ -71,6 +76,19 @@ public class UserRepository {
         @Override
         protected LiveData<List<User>> doInBackground(String... strings) {
             return userDAO.filterText(strings[0]);
+        }
+    }
+
+    private static class ObjectAsyncTask extends AsyncTask<String, Void, User>{
+        private UserDAO userDao;
+
+        private ObjectAsyncTask(UserDAO userDao) { this.userDao = userDao; }
+
+
+        @Override
+        protected User doInBackground(String...strings) {
+            int id = Integer.parseInt(strings.toString());
+            return userDao.findObjectbyId(id);
         }
     }
 }

@@ -463,7 +463,8 @@ public class UserInfoScreen extends AppCompatActivity {
         HourMedicine hM = adapterAl.getCurrentObject(position);
         MedicineRepository medRe = new MedicineRepository(this.getApplication());
         Medicine med = medRe.findObjectByName(hM.getNombre());
-        Alarm al = alarmViewModel.getAlarmbyTimeAndMedId(hM.getHora(),med.getId_medicine());
+        int idAl = alarmViewModel.getAlarmbyTimeAndMedId(hM.getHora(),med.getId_medicine());
+        Alarm al = alarmViewModel.getAlarmById(idAl);
         Log.println(Log.INFO, "PathologyUserTest", al.toString());
         return al;
     }

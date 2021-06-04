@@ -59,6 +59,7 @@ public class UserAddScreen extends AppCompatActivity {
     PathologyUserRepository paUsRe;
     PathologyRepository paRe;
     UserRepository usRe;
+    User usr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,16 +328,17 @@ public class UserAddScreen extends AppCompatActivity {
                 || !addAge.getText().toString().equals("")
                 || !addRoomNumber.getText().toString().equals("")){
             Toast.makeText(this, "Usuario creado.", Toast.LENGTH_SHORT).show();
-            User user = new User(addUsername.getText().toString(),
+            usRe.insertUser(addUsername.getText().toString(),
                     addSurname.getText().toString(),
                     addAge.getText().toString(),
-                    Integer.parseInt(addRoomNumber.getText().toString()),
+                    addRoomNumber.getText().toString(),
                     addGender.getSelectedItem().toString(),
                     obs,
                     bytearray);
-            usRe.insertObject(user);
-            paUsRe.insertObject(user.getId_user(),
+            Log.println(Log.INFO,"id", String.valueOf(usRe.getUserIdByNameAndSurname(addUsername.getText().toString(),addSurname.getText().toString())));
+            paUsRe.insertObject(usRe.getUserIdByNameAndSurname(addUsername.getText().toString(),addSurname.getText().toString()),
                     paths.getId_pathology());
+
             Toast.makeText(this, "Patología " + paths.getPathologyName() + " añadida", Toast.LENGTH_SHORT).show();
             Intent mainAct = new Intent(UserAddScreen.this, UserListScreen.class);
             startActivity(mainAct);

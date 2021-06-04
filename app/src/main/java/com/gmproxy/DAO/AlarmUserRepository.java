@@ -22,7 +22,7 @@ public class AlarmUserRepository {
         return concerningDao.getAllObjects();
     }
 
-    void insertAllObjects(List<AlarmUser> objectsList) {
+    public void insertAllObjects(List<AlarmUser> objectsList) {
         DatabaseHelper.databaseWriteExecutor.execute(() ->{
             concerningDao.insertAllObjects(objectsList);
         });
@@ -36,7 +36,11 @@ public class AlarmUserRepository {
 
     public AlarmUser findClassById(int id){ return concerningDao.findClassbyAlarmId(id); }
 
-    public void insertObjectById(int i, int j) { concerningDao.insertIntoAlarmUser(i,j); }
+    public void insertObjectById(int i, int j) {
+        DatabaseHelper.databaseWriteExecutor.execute(() ->{
+            concerningDao.insertIntoAlarmUser(i,j);
+        });
+    }
 
     public void deleteObject(AlarmUser obj) {
         concerningDao.delete(obj);
