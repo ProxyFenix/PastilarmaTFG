@@ -28,6 +28,12 @@ public class AlarmUserRepository {
         });
     }
 
+    public void insertObject(AlarmUser obj) {
+        DatabaseHelper.databaseWriteExecutor.execute(() ->{
+            concerningDao.insertObject(obj);
+        });
+    }
+
     public void deleteAllFromUser(int i) { concerningDao.deleteAllFromUser(i);}
 
     public AlarmUser isThereAnyBodyHome(int id) { return concerningDao.getAnyRecord(id); }

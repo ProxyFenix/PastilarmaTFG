@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.gmproxy.DAO.AlarmRepository;
 import com.gmproxy.DAO.AlarmUserRepository;
 import com.gmproxy.Entities.Alarm;
+import com.gmproxy.Entities.AlarmUser;
 import com.gmproxy.Entities.Medicine;
 import com.gmproxy.Entities.User;
 import com.gmproxy.Alarm.UtilAlarma;
@@ -169,7 +170,6 @@ public class UserAlarmScreen extends AppCompatActivity {
 
     private void loadPreferences(){
         SharedPreferences preferences = getSharedPreferences("dataA",Context.MODE_PRIVATE);
-
         idU = preferences.getInt("idU",0);
     }
 
@@ -203,25 +203,25 @@ public class UserAlarmScreen extends AppCompatActivity {
      */
     public void confirmAlarm(View view) throws InterruptedException {
 
-
-        alRe.insertAlarm(medicine.getId_medicine(),
+        Alarm alarm = new Alarm(medicine.getId_medicine(),
                 notificationsTime.getText().toString());
-
+        alarmViewModel.insert(alarm);
 
         Log.println(Log.INFO,"Med check null",String.valueOf(medicine.getId_medicine()));
         Log.println(Log.INFO,"Hour check null",notificationsTime.getText().toString());
-        int idAl = alRe.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine());
-        Log.println(Log.INFO,"Alarm Id Res check null",String.valueOf(alRe.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine())));
-        Log.println(Log.INFO,"Alarm Id check null",String.valueOf(idAl));
-        alUsRe.insertObjectById(idAl,idU);
+        AlarmUser alarmUser = new AlarmUser(alarmViewModel.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine()),idU);
+        Log.println(Log.INFO,"Check AlarmUser null",alarmUser.toString());
+        alUsRe.insertObject(alarmUser);
 
         message = "El paciente " + user.getUser_name() + " " + user.getUser_surname()
                 + " tiene apuntada la medicación " + medicine.getMedicineName() + " a las " + notificationsTime.getText().toString() + " horas.";
-        UtilAlarma.setAlarm(idAl, today.getTimeInMillis(), UserAlarmScreen.this, message);
+        Log.println(Log.INFO,"Test mensaje",message);
+        UtilAlarma.setAlarm(alarmViewModel.getAlarmbyTimeAndMedId(notificationsTime.getText().toString(),medicine.getId_medicine()), today.getTimeInMillis(), UserAlarmScreen.this, message);
         Intent mainAct = new Intent(UserAlarmScreen.this, UserInfoScreen.class);
         int id = 1;
         mainAct.putExtra("alar-record",id);
         startActivity(mainAct);
     }
+
 
 }
